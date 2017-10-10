@@ -12,7 +12,6 @@ public class Mesa implements Serializable {
 
     private boolean comandaAberta;
 
-    private int imagem;
 
     public int getId() {
         return id;
@@ -38,11 +37,5 @@ public class Mesa implements Serializable {
         this.comandaAberta = comandaAberta;
     }
 
-    public int getImagem() {
-        return imagem;
-    }
 
-    public void setImagem(int imagem) {
-        this.imagem = imagem;
-    }
 }

@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Comanda implements Serializable {
     private int id;
-    private int id_mesa;
+    private Mesa mesa;
     private List<PizzaComanda> pizzas;
     private List<BebidaComanda> bebidas;
 
@@ -20,12 +20,12 @@ public class Comanda implements Serializable {
         this.id = id;
     }
 
-    public int getId_mesa() {
-        return id_mesa;
+    public Mesa getMesa() {
+        return mesa;
     }
 
-    public void setId_mesa(int id_mesa) {
-        this.id_mesa = id_mesa;
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
     }
 
     public List<PizzaComanda> getPizzaDTOs() {

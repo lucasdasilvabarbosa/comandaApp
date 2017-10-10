@@ -1,11 +1,10 @@
 package ucdb.br.appcomanda.adapter;
 
-import android.media.Image;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -27,13 +26,12 @@ public class MesasAdapter extends RecyclerView.Adapter<MesasAdapter.MyViewHolder
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView title;
-        public ImageView icone;
+        public TextView id_mesa;
+
 
         public MyViewHolder(View view) {
             super(view);
-            icone = (ImageView) view.findViewById(R.id.icon);
-            title = (TextView) view.findViewById(R.id.title);
+            id_mesa = (TextView) view.findViewById(R.id.id_mesa);
 
         }
 
@@ -51,9 +49,13 @@ public class MesasAdapter extends RecyclerView.Adapter<MesasAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Mesa mesa = mesas.get(position);
 
-        holder.title.setText(String.valueOf(mesa.getNumeroDaMesa()));
-        holder.icone.setImageResource(mesa.getImagem());
+        holder.id_mesa.setText(String.valueOf(mesa.getNumeroDaMesa()));
 
+
+    }
+
+    public Mesa getItem(int position){
+        return  mesas.get(position);
     }
 
     @Override

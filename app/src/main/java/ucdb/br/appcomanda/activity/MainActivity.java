@@ -1,61 +1,65 @@
 package ucdb.br.appcomanda.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import ucdb.br.appcomanda.ComandaHelper;
 import ucdb.br.appcomanda.R;
 import ucdb.br.appcomanda.adapter.DividerItemDecoration;
 import ucdb.br.appcomanda.adapter.MesasAdapter;
 import ucdb.br.appcomanda.adapter.RecyclerTouchListener;
+import ucdb.br.appcomanda.api.ApiRetrofit;
+import ucdb.br.appcomanda.api.Rotas;
 import ucdb.br.appcomanda.modelDTO.Mesa;
 
 public class MainActivity extends AppCompatActivity {
-    private List<Mesa> mesaList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private MesasAdapter mesasAdapter;
 
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+
+
+    private Rotas apiRotas;
+    private MesasAdapter mesasAdapter;
+    private List<Mesa> mesas;
+    ComandaHelper comandaHelper = new ComandaHelper();
 
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        apiRotas = ApiRetrofit.buildRetrofit();
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        mesasAdapter = new MesasAdapter(mesaList);
         RecyclerView.LayoutManager LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(LayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(mesasAdapter);
+        getMesas(this);
 
 
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+
+
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this, recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                comandaHelper.getComanda().setMesa(mesasAdapter.getItem(position));
                 Intent irParaMesa = new Intent(MainActivity.this, ComandaActivity.class);
                 startActivity(irParaMesa);
             }
@@ -65,24 +69,39 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }));
-        preparaMesas();
+
 
     }
 
 
-    public void preparaMesas() {
+    public void getMesas(final Context context){
 
-        for (int i = 1; i <= 6; i++) {
-            Mesa mesa = new Mesa();
-            mesa.setId(i);
-            mesa.setNumeroDaMesa(i);
-            mesa.setImagem(R.drawable.mesa);
-            mesaList.add(mesa);
-        }
 
-        mesasAdapter.notifyDataSetChanged();
+        Call<List<Mesa>> call = apiRotas.getMesas();
+
+        call.enqueue(new Callback<List<Mesa>>() {
+            @Override
+            public void onResponse(Call<List<Mesa>> call, Response<List<Mesa>> response) {
+                mesas = response.body();
+                if(mesas != null){
+
+                    mesasAdapter = new MesasAdapter(mesas);
+                    mesasAdapter.notifyDataSetChanged();
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setAdapter(mesasAdapter);
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Mesa>> call, Throwable t) {
+                Toast.makeText(context, "Sem conexao", Toast.LENGTH_LONG);            }
+        });
 
     }
+
+
 
 
 }

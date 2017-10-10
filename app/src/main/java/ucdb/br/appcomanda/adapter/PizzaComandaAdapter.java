@@ -4,28 +4,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.List;
 
 import ucdb.br.appcomanda.R;
 import ucdb.br.appcomanda.adapter.viewHolder.PizzaViewHolder;
-import ucdb.br.appcomanda.modelDTO.Pizza;
 import ucdb.br.appcomanda.modelDTO.PizzaComanda;
 
 /**
- * Created by lucas on 16/11/2016.
+ * Created by Lucas on 31/07/2017.
  */
-public class CardapioPizzaAdapter extends RecyclerView.Adapter<PizzaViewHolder>  {
-    private List<Pizza> pizzas;
 
+public class PizzaComandaAdapter extends RecyclerView.Adapter<PizzaViewHolder>{
+    List<PizzaComanda> pizzas;
 
-
-    public CardapioPizzaAdapter(List<Pizza> pizzas) {
+    public PizzaComandaAdapter(List<PizzaComanda> pizzas) {
         this.pizzas = pizzas;
     }
-
 
     @Override
     public PizzaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -37,21 +32,13 @@ public class CardapioPizzaAdapter extends RecyclerView.Adapter<PizzaViewHolder> 
 
     @Override
     public void onBindViewHolder(PizzaViewHolder holder, int position) {
-        Pizza pizza = pizzas.get(position);
-
-        holder.sabor.setText(pizza.getSabor());
-        holder.idPizza.setText(String.valueOf(pizza.getId()));
-
-    }
-
-    public Pizza getItem(int position){
-        return pizzas.get(position);
+         PizzaComanda pizzaComanda = pizzas.get(position);
+        holder.sabor.setText(pizzaComanda.getSaborPizza());
+        holder.idPizza.setText(String.valueOf(pizzaComanda.getId()));
     }
 
     @Override
     public int getItemCount() {
-
-            return pizzas.size();
-
+        return pizzas.size();
     }
 }
