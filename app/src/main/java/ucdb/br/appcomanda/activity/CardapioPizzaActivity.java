@@ -34,7 +34,7 @@ import ucdb.br.appcomanda.modelDTO.PizzaComanda;
  */
 public class CardapioPizzaActivity extends AppCompatActivity {
 
-    List<Pizza> pizzas;
+    private List<Pizza> pizzas;
 
     @BindView(R.id.cardapio_pizza)
     RecyclerView recyclerView;
@@ -59,10 +59,19 @@ public class CardapioPizzaActivity extends AppCompatActivity {
             public void onClick(View view, int position) {
                 PizzaComanda pizzaComanda = new PizzaComanda();
                 pizzaComanda.setIdComanda(ComandaHelper.getComanda().getId());
-                pizzaComanda.setIdPizza(cardapioPizzaAdapter.getItem(position).getId());
+                int a = cardapioPizzaAdapter.getItem(position).getId();
+                pizzaComanda.setIdPizza(a);
                 pizzaComanda.setSaborPizza(cardapioPizzaAdapter.getItem(position).getSabor());
-                pizzaComandas.add(pizzaComanda);
-                ComandaHelper.getComanda().setPizzaDTOs(pizzaComandas);
+
+                if(ComandaHelper.getComanda().getPizzaDTOs() != null)
+                    ComandaHelper.getComanda().getPizzaDTOs().add(pizzaComanda);
+                else{
+                    pizzaComandas.add(pizzaComanda);
+                    ComandaHelper.getComanda().setPizzaDTOs(pizzaComandas);
+                }
+
+
+                finish();
 
             }
 
@@ -92,8 +101,8 @@ public class CardapioPizzaActivity extends AppCompatActivity {
                 cardapioPizzaAdapter = new CardapioPizzaAdapter(pizzas);
                 recyclerView.setAdapter(cardapioPizzaAdapter);
                 cardapioPizzaAdapter.notifyDataSetChanged();
-                salvaComanda();
-                finish();
+
+
 
             }
 

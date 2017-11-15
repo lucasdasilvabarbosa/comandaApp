@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        apiRotas = ApiRetrofit.buildRetrofit();
+
 
 
         RecyclerView.LayoutManager LayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void getMesas(final Context context){
+        apiRotas = ApiRetrofit.buildRetrofit();
 
 
         Call<List<Mesa>> call = apiRotas.getMesas();

@@ -26,7 +26,7 @@ import ucdb.br.appcomanda.modelDTO.Mesa;
 /**
  * Created by lucas on 26/09/2016.
  */
-public class ComandaActivity extends AppCompatActivity {
+public class ComandaActivity extends AppCompatActivity  {
 
     @BindView(R.id.pizzas_comanda)
     RecyclerView pizzasComanda;
@@ -49,6 +49,17 @@ public class ComandaActivity extends AppCompatActivity {
         Intent tela_cardapio_pizza = new Intent(ComandaActivity.this, CardapioPizzaActivity.class);
         startActivity(tela_cardapio_pizza);
     }
+
+    @Override
+    protected void onResume() {
+        if(ComandaHelper.getComanda().getPizzaDTOs() != null){
+            preenchePizzasComanda(this);
+        }
+
+        super.onResume();
+    }
+
+
 
     private void criarComanda(Mesa mesa, final Context context) {
         Rotas apiRotas = ApiRetrofit.buildRetrofit();

@@ -34,7 +34,7 @@ public class PizzaComandaAdapter extends RecyclerView.Adapter<PizzaViewHolder>{
     public void onBindViewHolder(PizzaViewHolder holder, int position) {
          PizzaComanda pizzaComanda = pizzas.get(position);
         holder.sabor.setText(pizzaComanda.getSaborPizza());
-        holder.idPizza.setText(String.valueOf(pizzaComanda.getId()));
+        holder.idPizza.setText(String.valueOf(pizzaComanda.getIdPizza()));
     }
 
     @Override
