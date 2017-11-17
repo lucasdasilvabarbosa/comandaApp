@@ -51,7 +51,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:text="Enviar Para Cozinha!" />
+                    android:text="Enviar Para Cozinha!"
+                    android:theme="@style/AppTheme.Button"
+                    />
 
             </RelativeLayout>
 

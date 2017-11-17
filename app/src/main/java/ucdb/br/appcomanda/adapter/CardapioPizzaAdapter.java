@@ -41,6 +41,8 @@ public class CardapioPizzaAdapter extends RecyclerView.Adapter<PizzaViewHolder> 
 
         holder.sabor.setText(pizza.getSabor());
         holder.idPizza.setText(String.valueOf(pizza.getId()));
+        holder.descricao.setText("calabresa bacon e outras coisas");
+        holder.valor.setText(String.valueOf(pizza.getValor()));
 
     }
 

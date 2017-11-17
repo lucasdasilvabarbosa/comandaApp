@@ -1,30 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:clickable="true"
     android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:background="?attr/selectableItemBackground"
-    android:layout_height="70dp">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/id_pizza_comanda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/id_descricao_pizza"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="top"
         android:padding="8dp"
         android:textColor="@android:color/black"
         android:textSize="22sp"
-        android:layout_gravity="top"
+        android:text="1"
         />
 
     <TextView
         android:id="@+id/sabor"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:textSize="16sp"
-        android:layout_gravity="top"/>
+        android:text="Calabresa"
+        android:layout_toRightOf="@+id/id_pizza_comanda"
+        />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/id_valor_pizza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="15.50" />
+
+    <TextView
+        android:id="@+id/id_descricao_pizza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sabor"
+        android:gravity="left|start"
+        android:layout_marginLeft="28dp"
+        android:text="calabresa bacon e outras coisas"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        />
+
+</RelativeLayout>

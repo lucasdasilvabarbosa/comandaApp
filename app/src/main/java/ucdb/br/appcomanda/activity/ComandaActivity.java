@@ -36,11 +36,35 @@ public class ComandaActivity extends AppCompatActivity  {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_comanda);
         ButterKnife.bind(this);
-        criarComanda(ComandaHelper.getComanda().getMesa(),this);
 
-        if(ComandaHelper.getComanda().getPizzaDTOs() != null){
-           preenchePizzasComanda(this);
-        }
+        if(ComandaHelper.getComanda().getMesa().isComandaAberta()){
+            buscarComanda(ComandaHelper.getComanda().getMesa(), this);
+        }else
+            criarComanda(ComandaHelper.getComanda().getMesa(),this);
+
+
+
+    }
+
+    private void buscarComanda(Mesa mesa, final Context context) {
+        Rotas apiRotas = ApiRetrofit.buildRetrofit();
+
+        Call<Comanda> call = apiRotas.buscarComanda(mesa.getId());
+
+        call.enqueue(new Callback<Comanda>() {
+            @Override
+            public void onResponse(Call<Comanda> call, Response<Comanda> response) {
+                if(response.code() == 200)
+                  ComandaHelper.setComanda(response.body());
+                else
+                    Toast.makeText(context, "Hove um erro na comunicação!", Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onFailure(Call<Comanda> call, Throwable t) {
+                Toast.makeText(context, "Hove um erro na comunicação!", Toast.LENGTH_SHORT);
+            }
+        });
 
     }
 

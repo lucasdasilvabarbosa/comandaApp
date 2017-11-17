@@ -7,9 +7,7 @@ import java.io.Serializable;
  */
 public class Mesa implements Serializable {
     private int id;
-
     private int numeroDaMesa;
-
     private boolean comandaAberta;
 
 

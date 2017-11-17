@@ -8,6 +8,7 @@ android {
         applicationId "ucdb.br.appcomanda"
         minSdkVersion 14
         targetSdkVersion 25
+        minSdkVersion 21
         versionCode 1
         versionName "1.0"
     }

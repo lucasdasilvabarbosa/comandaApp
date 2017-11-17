@@ -1,6 +1,7 @@
 package ucdb.br.appcomanda.adapter;
 
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,12 +28,12 @@ public class MesasAdapter extends RecyclerView.Adapter<MesasAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView id_mesa;
-
+        public TextView statusMesa;
 
         public MyViewHolder(View view) {
             super(view);
             id_mesa = (TextView) view.findViewById(R.id.id_mesa);
-
+            statusMesa = (TextView) view.findViewById(R.id.statusMesa);
         }
 
     }
@@ -50,7 +51,13 @@ public class MesasAdapter extends RecyclerView.Adapter<MesasAdapter.MyViewHolder
         Mesa mesa = mesas.get(position);
 
         holder.id_mesa.setText(String.valueOf(mesa.getNumeroDaMesa()));
-
+        if(mesa.isComandaAberta()){
+            holder.statusMesa.setText("Aberta");
+            holder.statusMesa.setTextColor(Color.parseColor("#303F9F"));
+        }else{
+            holder.statusMesa.setText("Livre");
+            holder.statusMesa.setTextColor(Color.parseColor("#04f104"));
+        }
 
     }
 

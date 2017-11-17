@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import ucdb.br.appcomanda.modelDTO.Comanda;
 import ucdb.br.appcomanda.modelDTO.Mesa;
 import ucdb.br.appcomanda.modelDTO.Pizza;
@@ -27,4 +28,7 @@ public interface Rotas {
 
     @POST("comanda/salvar")
     Call<Comanda> salvaComanda(@Body Comanda comanda);
+
+    @GET("buscarComanda/{idMesa}")
+    Call<Comanda> buscarComanda(@Path("idMesa") int idMesa);
 }

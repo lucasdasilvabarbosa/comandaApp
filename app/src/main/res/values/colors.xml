@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="year">#999999</color>
     <color name="title">#222222</color>
+    <color name="corBotao">#2195f2</color>
+    <color name="branco">#FFFF</color>
 </resources>
