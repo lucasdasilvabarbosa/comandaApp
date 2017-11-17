@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
-
         RecyclerView.LayoutManager LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(LayoutManager);
         getMesas(this);
