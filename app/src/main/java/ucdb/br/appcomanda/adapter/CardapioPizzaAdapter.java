@@ -4,26 +4,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.List;
 
 import ucdb.br.appcomanda.R;
 import ucdb.br.appcomanda.adapter.viewHolder.PizzaViewHolder;
-import ucdb.br.appcomanda.modelDTO.Pizza;
-import ucdb.br.appcomanda.modelDTO.PizzaComanda;
+import ucdb.br.appcomanda.modelDTO.PizzaDTO;
 
 /**
  * Created by lucas on 16/11/2016.
  */
 public class CardapioPizzaAdapter extends RecyclerView.Adapter<PizzaViewHolder>  {
-    private List<Pizza> pizzas;
+    private List<PizzaDTO> pizzaDTOS;
 
 
 
-    public CardapioPizzaAdapter(List<Pizza> pizzas) {
-        this.pizzas = pizzas;
+    public CardapioPizzaAdapter(List<PizzaDTO> pizzaDTOS) {
+        this.pizzaDTOS = pizzaDTOS;
     }
 
 
@@ -37,23 +34,23 @@ public class CardapioPizzaAdapter extends RecyclerView.Adapter<PizzaViewHolder> 
 
     @Override
     public void onBindViewHolder(PizzaViewHolder holder, int position) {
-        Pizza pizza = pizzas.get(position);
+        PizzaDTO pizzaDTO = pizzaDTOS.get(position);
 
-        holder.sabor.setText(pizza.getSabor());
-        holder.idPizza.setText(String.valueOf(pizza.getId()));
-        holder.descricao.setText("calabresa bacon e outras coisas");
-        holder.valor.setText(String.valueOf(pizza.getValor()));
+        holder.sabor.setText(pizzaDTO.getSabor());
+        holder.idPizza.setText(String.valueOf(pizzaDTO.getId()));
+        holder.descricao.setText(pizzaDTO.getDescricao());
+        holder.valor.setText(String.valueOf(pizzaDTO.getValor()));
 
     }
 
-    public Pizza getItem(int position){
-        return pizzas.get(position);
+    public PizzaDTO getItem(int position){
+        return pizzaDTOS.get(position);
     }
 
     @Override
     public int getItemCount() {
 
-            return pizzas.size();
+            return pizzaDTOS.size();
 
     }
 }

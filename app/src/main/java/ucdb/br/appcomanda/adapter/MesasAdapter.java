@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ucdb.br.appcomanda.R;
-import ucdb.br.appcomanda.modelDTO.Mesa;
+import ucdb.br.appcomanda.modelDTO.MesaDTO;
 
 /**
  * Created by lucas on 24/10/2016.
@@ -20,10 +20,10 @@ import ucdb.br.appcomanda.modelDTO.Mesa;
 
 
 public class MesasAdapter extends RecyclerView.Adapter<MesasAdapter.MyViewHolder> {
-    private List<Mesa> mesas;
+    private List<MesaDTO> mesaDTOS;
 
-    public MesasAdapter(List<Mesa> mesas) {
-        this.mesas = mesas;
+    public MesasAdapter(List<MesaDTO> mesaDTOS) {
+        this.mesaDTOS = mesaDTOS;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -48,10 +48,10 @@ public class MesasAdapter extends RecyclerView.Adapter<MesasAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Mesa mesa = mesas.get(position);
+        MesaDTO mesaDTO = mesaDTOS.get(position);
 
-        holder.id_mesa.setText(String.valueOf(mesa.getNumeroDaMesa()));
-        if(mesa.isComandaAberta()){
+        holder.id_mesa.setText(String.valueOf(mesaDTO.getNumeroDaMesa()));
+        if(mesaDTO.isComandaAberta()){
             holder.statusMesa.setText("Aberta");
             holder.statusMesa.setTextColor(Color.parseColor("#303F9F"));
         }else{
@@ -61,12 +61,12 @@ public class MesasAdapter extends RecyclerView.Adapter<MesasAdapter.MyViewHolder
 
     }
 
-    public Mesa getItem(int position){
-        return  mesas.get(position);
+    public MesaDTO getItem(int position){
+        return  mesaDTOS.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return mesas.size();
+        return mesaDTOS.size();
     }
 }

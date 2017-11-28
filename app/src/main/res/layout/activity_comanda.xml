@@ -8,10 +8,10 @@
     >
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,28 +21,31 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="90dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/id_numero_da_mesa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:gravity="top"
                     android:padding="8dp"
-                    android:text="conseguiu" />
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:text="Mesa: 5" />
 
                 <TextView
+                    android:id="@+id/id_valor_comanda"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_toRightOf="@+id/textView"
+                    android:layout_toRightOf="@+id/id_numero_da_mesa"
                     android:gravity="left"
                     android:padding="8dp"
-                    android:text="Informaçoes cabeçalho"
+                    android:text="Valor da Comanda: 25.50"
                     android:textSize="16sp" />
 
                 <Button
@@ -51,18 +54,51 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:text="Enviar Para Cozinha!"
+                    android:text="Enviar Para Cozinha"
+                    android:id="@+id/id_btn_enviar_para_cozinha"
+                    android:theme="@style/AppTheme.Button" />
+
+                <Button
+                    android:id="@+id/id_btn_finalizar_comanda"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="Finalizar Comanda"
                     android:theme="@style/AppTheme.Button"
                     />
 
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/id_ly_pizza_comanda"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@drawable/borda"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
 
+                >
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/pizzas_comanda"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/id_ly_bebida_comanda"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/borda"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
+                >
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/bebida_comanda"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
@@ -72,15 +108,28 @@
 
     </ScrollView>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/cardapio_bebida"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@mipmap/ic_bebida_botao"
+        app:elevation="3dp"
+        app:layout_anchor="@+id/scrollView2"
+        app:layout_anchorGravity="left|bottom"
+        android:layout_marginLeft="5dp"
+        />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/cardapio"
+        android:id="@+id/cardapio_pizza"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginRight="5dp"
         android:backgroundTint="@color/colorPrimary"
-        android:src="@mipmap/ic_add"
+        android:src="@mipmap/ic_pizza_botao"
         app:elevation="3dp"
         />
 

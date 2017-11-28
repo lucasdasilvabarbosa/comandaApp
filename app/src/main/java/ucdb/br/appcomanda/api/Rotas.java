@@ -7,9 +7,10 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import ucdb.br.appcomanda.modelDTO.Comanda;
-import ucdb.br.appcomanda.modelDTO.Mesa;
-import ucdb.br.appcomanda.modelDTO.Pizza;
+import ucdb.br.appcomanda.modelDTO.BebidaDTO;
+import ucdb.br.appcomanda.modelDTO.ComandaDTO;
+import ucdb.br.appcomanda.modelDTO.MesaDTO;
+import ucdb.br.appcomanda.modelDTO.PizzaDTO;
 
 /**
  * Created by Lucas on 30/05/2017.
@@ -18,17 +19,20 @@ import ucdb.br.appcomanda.modelDTO.Pizza;
 public interface Rotas {
 
     @GET("pizza/lista")
-    Call<List<Pizza>> getPizzas();
+    Call<List<PizzaDTO>> getPizzas();
+
+    @GET("bebida/lista")
+    Call<List<BebidaDTO>> getBebidas();
 
     @GET("mesa/lista")
-    Call<List<Mesa>> getMesas();
+    Call<List<MesaDTO>> getMesas();
 
     @POST("comanda/cria")
-    Call<Comanda> criaComanda(@Body Mesa mesa);
+    Call<ComandaDTO> criaComanda(@Body MesaDTO mesaDTO);
 
     @POST("comanda/salvar")
-    Call<Comanda> salvaComanda(@Body Comanda comanda);
+    Call<ComandaDTO> salvaComanda(@Body ComandaDTO comandaDTO);
 
-    @GET("buscarComanda/{idMesa}")
-    Call<Comanda> buscarComanda(@Path("idMesa") int idMesa);
+    @GET("comanda/buscarcomanda/{idMesa}")
+    Call<ComandaDTO> buscarComanda(@Path("idMesa") int idMesa);
 }

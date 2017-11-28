@@ -5,11 +5,12 @@ import java.io.Serializable;
 /**
  * Created by lucas on 26/09/2016.
  */
-public class PizzaComanda implements Serializable {
+public class PizzaComandaDTO implements Serializable {
     private int id;
     private int idPizza;
     private String saborPizza;
     private int idComanda;
+    private Double valorPizza;
 
     public int getId() {
         return id;
@@ -43,4 +44,11 @@ public class PizzaComanda implements Serializable {
         this.idComanda = idComanda;
     }
 
+    public Double getValorPizza() {
+        return valorPizza;
+    }
+
+    public void setValorPizza(Double valorPizza) {
+        this.valorPizza = valorPizza;
+    }
 }

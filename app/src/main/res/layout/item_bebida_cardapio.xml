@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:clickable="true"
     android:gravity="center_vertical"
     android:layout_width="match_parent"
@@ -8,7 +7,7 @@
     android:layout_height="55dp">
 
     <TextView
-        android:id="@+id/id_pizza_comanda"
+        android:id="@+id/id_bebida_comanda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/id_descricao_pizza"
@@ -22,33 +21,24 @@
         />
 
     <TextView
-        android:id="@+id/sabor"
+        android:id="@+id/id_descricao_bebida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:text="Calabresa"
-        android:layout_toRightOf="@+id/id_pizza_comanda"
+        android:layout_toRightOf="@+id/id_bebida_comanda"
         />
 
     <TextView
-        android:id="@+id/id_valor_pizza"
+        android:id="@+id/id_valor_bebida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:textSize="20sp"
         android:layout_marginRight="5dp"
-        android:text="15.50" />
+        android:textSize="20sp"
+        android:text="16.50" />
 
-    <TextView
-        android:id="@+id/id_descricao_pizza"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sabor"
-        android:gravity="left|start"
-        android:layout_marginLeft="28dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        />
 
     <View
         android:layout_width="match_parent"

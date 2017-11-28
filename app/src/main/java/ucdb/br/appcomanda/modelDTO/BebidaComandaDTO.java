@@ -5,11 +5,12 @@ import java.io.Serializable;
 /**
  * Created by lucas on 26/09/2016.
  */
-public class BebidaComanda implements Serializable {
+public class BebidaComandaDTO implements Serializable {
     private int id;
     private int idBebida;
     private String descricaoBebida;
     private int idComanda;
+    private Double valorBebida;
 
     public int getId() {
         return id;
@@ -43,4 +44,11 @@ public class BebidaComanda implements Serializable {
         this.idComanda = idComanda;
     }
 
+    public Double getValorBebida() {
+        return valorBebida;
+    }
+
+    public void setValorBebida(Double valorBebida) {
+        this.valorBebida = valorBebida;
+    }
 }

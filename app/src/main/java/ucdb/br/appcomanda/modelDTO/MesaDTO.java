@@ -5,11 +5,10 @@ import java.io.Serializable;
 /**
  * Created by lucas on 26/09/2016.
  */
-public class Mesa implements Serializable {
+public class MesaDTO implements Serializable {
     private int id;
     private int numeroDaMesa;
     private boolean comandaAberta;
-
 
     public int getId() {
         return id;
@@ -34,6 +33,4 @@ public class Mesa implements Serializable {
     public void setComandaAberta(boolean comandaAberta) {
         this.comandaAberta = comandaAberta;
     }
-
-
 }

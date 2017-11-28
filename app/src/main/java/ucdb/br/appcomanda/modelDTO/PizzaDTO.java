@@ -7,10 +7,11 @@ import java.io.Serializable;
  */
 
 
-public class Pizza implements Serializable {
+public class PizzaDTO implements Serializable {
     private int id;
     private String sabor;
     private Double valor;
+    private String descricao;
 
     public int getId() {
         return id;
@@ -36,4 +37,11 @@ public class Pizza implements Serializable {
         this.valor = valor;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 }
