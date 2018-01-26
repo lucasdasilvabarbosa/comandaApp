@@ -1,8 +1,10 @@
 package ucdb.br.appcomanda.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,12 +27,13 @@ import ucdb.br.appcomanda.api.ApiRetrofit;
 import ucdb.br.appcomanda.api.Rotas;
 import ucdb.br.appcomanda.modelDTO.ComandaDTO;
 import ucdb.br.appcomanda.modelDTO.MesaDTO;
+import ucdb.br.appcomanda.util.MascaraMonetaria;
 
 
 /**
  * Created by lucas on 26/09/2016.
  */
-public class ComandaActivity extends AppCompatActivity  {
+public class ComandaActivity extends AppCompatActivity {
 
     @BindView(R.id.pizzas_comanda)
     RecyclerView pizzasComanda;
@@ -50,18 +53,20 @@ public class ComandaActivity extends AppCompatActivity  {
     @BindView(R.id.id_numero_da_mesa)
     TextView numeroDaMesa;
 
+    boolean validarRetorno;
+
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_comanda);
         ButterKnife.bind(this);
 
-        if(ComandaHelper.getMesaDTO().isComandaAberta()){
+        if (ComandaHelper.getMesaDTO().isComandaAberta()) {
             buscarComanda(ComandaHelper.getMesaDTO(), this);
-            numeroDaMesa.setText("Mesa: "+ComandaHelper.getMesaDTO().getNumeroDaMesa());
-        }else {
+            numeroDaMesa.setText("Mesa: " + ComandaHelper.getMesaDTO().getNumeroDaMesa());
+        } else {
             criarComanda(ComandaHelper.getMesaDTO(), this);
-            numeroDaMesa.setText("Mesa: "+ComandaHelper.getMesaDTO().getNumeroDaMesa());
+            numeroDaMesa.setText("Mesa: " + ComandaHelper.getMesaDTO().getNumeroDaMesa());
         }
 
     }
@@ -75,12 +80,12 @@ public class ComandaActivity extends AppCompatActivity  {
         call.enqueue(new Callback<ComandaDTO>() {
             @Override
             public void onResponse(Call<ComandaDTO> call, Response<ComandaDTO> response) {
-                if(response.code() == 200) {
+                if (response.code() == 200) {
                     ComandaHelper.setComandaDTO(response.body());
                     preencheBebidaComanda(context);
                     preenchePizzasComanda(context);
-                    valorComanda.setText("Valor da Comanda: "+String.valueOf(ComandaHelper.somaValorComanda()));
-                }else
+                    valorComanda.setText("Valor da Comanda: " + String.valueOf(ComandaHelper.somaValorComanda()));
+                } else
                     Toast.makeText(context, "Hove um erro na comunicação!", Toast.LENGTH_SHORT);
             }
 
@@ -99,27 +104,26 @@ public class ComandaActivity extends AppCompatActivity  {
     }
 
     @OnClick(R.id.cardapio_bebida)
-    public void chamar_cardapio_bebida(){
+    public void chamar_cardapio_bebida() {
         Intent tela_cardapio_bebida = new Intent(ComandaActivity.this, BebidaComandaActivity.class);
         startActivity(tela_cardapio_bebida);
     }
 
     @Override
     protected void onResume() {
-        if(ComandaHelper.getComandaDTO().getPizzaDTOs() != null){
+        if (ComandaHelper.getComandaDTO().getPizzaDTOs() != null) {
             preenchePizzasComanda(this);
-        }else
+        } else
             mLyPizzaComanda.setVisibility(View.INVISIBLE);
 
-        if(ComandaHelper.getComandaDTO().getBebidaDTOs() != null){
+        if (ComandaHelper.getComandaDTO().getBebidaDTOs() != null) {
             preencheBebidaComanda(this);
-        }else
+        } else
             mLyBebidaComanda.setVisibility(View.INVISIBLE);
 
-        valorComanda.setText("Valor da Comanda: "+String.valueOf(ComandaHelper.somaValorComanda()));
+        valorComanda.setText("Valor da Comanda: " + String.valueOf(ComandaHelper.somaValorComanda()));
         super.onResume();
     }
-
 
 
     private void criarComanda(MesaDTO mesaDTO, final Context context) {
@@ -132,11 +136,11 @@ public class ComandaActivity extends AppCompatActivity  {
             public void onResponse(Call<ComandaDTO> call, Response<ComandaDTO> response) {
                 ComandaDTO comandaDTO = response.body();
 
-                if(comandaDTO != null){
+                if (comandaDTO != null) {
                     ComandaHelper.setComandaDTO(comandaDTO);
                     Toast.makeText(context, "criou comandaDTO!", Toast.LENGTH_LONG);
 
-                }else
+                } else
                     Toast.makeText(context, "falhou comunicação!!", Toast.LENGTH_LONG);
             }
 
@@ -157,17 +161,17 @@ public class ComandaActivity extends AppCompatActivity  {
         mLyPizzaComanda.setVisibility(View.VISIBLE);
     }
 
-    public void preencheBebidaComanda(Context context){
-       RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-       bebidaComanda.setLayoutManager(layoutManager);
-       BebidaComandaApater bebidaComandaApater = new BebidaComandaApater(ComandaHelper.getComandaDTO().getBebidaDTOs());
-       bebidaComanda.setAdapter(bebidaComandaApater);
-       bebidaComandaApater.notifyDataSetChanged();
-       mLyBebidaComanda.setVisibility(View.VISIBLE);
+    public void preencheBebidaComanda(Context context) {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        bebidaComanda.setLayoutManager(layoutManager);
+        BebidaComandaApater bebidaComandaApater = new BebidaComandaApater(ComandaHelper.getComandaDTO().getBebidaDTOs());
+        bebidaComanda.setAdapter(bebidaComandaApater);
+        bebidaComandaApater.notifyDataSetChanged();
+        mLyBebidaComanda.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.id_btn_enviar_para_cozinha)
-    public void salvaComanda(){
+    public void salvaComanda() {
         Rotas apiRotas = ApiRetrofit.buildRetrofit();
 
         Call<ComandaDTO> call = apiRotas.salvaComanda(ComandaHelper.getComandaDTO());
@@ -177,7 +181,7 @@ public class ComandaActivity extends AppCompatActivity  {
             public void onResponse(Call<ComandaDTO> call, Response<ComandaDTO> response) {
                 ComandaDTO comandaDTO = response.body();
 
-                if (comandaDTO != null){
+                if (comandaDTO != null) {
                     ComandaHelper.setComandaDTO(comandaDTO);
                 }
 
@@ -190,8 +194,80 @@ public class ComandaActivity extends AppCompatActivity  {
         });
 
 
+    }
+
+    @OnClick(R.id.id_btn_finalizar_comanda)
+    public void btnfinalizarComanda() {
+        if (ComandaHelper.getComandaDTO().getBebidaDTOs() != null && ComandaHelper.getComandaDTO().getBebidaDTOs().size() > 0 ||
+                ComandaHelper.getComandaDTO().getPizzaDTOs() != null && ComandaHelper.getComandaDTO().getPizzaDTOs().size() > 0) {
+
+            Double valorFinal = ComandaHelper.somaValorComanda();
+            AlertDialog.Builder alert = new AlertDialog.Builder(ComandaActivity.this);
+            alert.setMessage("Valor da comanda = " + MascaraMonetaria.mascaraReal(valorFinal));
+            alert.setTitle("Deseja realmente fechar a comanda?!");
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finalizarComanda();
+                    if (validarRetorno)
+                        finish();
+                    else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(ComandaActivity.this);
+                        alert.setMessage("Algo deu errado na comunicação, tente novamente!");
+                        alert.setTitle("Atenção!");
+                        alert.setNegativeButton("Não", null);
+                        alert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        alert.show();
+                    }
+
+                }
+            });
+            alert.show();
+        } else {
+            AlertDialog.Builder alert = new AlertDialog.Builder(ComandaActivity.this);
+            alert.setTitle("Ops!");
+            alert.setMessage("Você precisa ter pizzas ou bebidas para poder finalizar uma comanda");
+            alert.setNegativeButton("Não", null);
+            alert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            alert.show();
+
+        }
+    }
+
+
+    public void finalizarComanda() {
+      Rotas rotas = ApiRetrofit.buildRetrofit();
+
+      Call<ComandaDTO> call = rotas.finalizarComanda(ComandaHelper.getComandaDTO());
+
+      call.enqueue(new Callback<ComandaDTO>() {
+          @Override
+          public void onResponse(Call<ComandaDTO> call, Response<ComandaDTO> response) {
+              if(response.code() == 200)
+                  validarRetorno = true;
+              else
+                  validarRetorno = false;
+          }
+
+          @Override
+          public void onFailure(Call<ComandaDTO> call, Throwable t) {
+
+          }
+      });
+
 
     }
+
 
     @Override
     protected void onDestroy() {

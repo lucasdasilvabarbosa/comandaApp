@@ -35,4 +35,9 @@ public interface Rotas {
 
     @GET("comanda/buscarcomanda/{idMesa}")
     Call<ComandaDTO> buscarComanda(@Path("idMesa") int idMesa);
+
+    @POST("comanda/finalizar")
+    Call<ComandaDTO> finalizarComanda(@Body ComandaDTO comandaDTO);
+
+
 }
