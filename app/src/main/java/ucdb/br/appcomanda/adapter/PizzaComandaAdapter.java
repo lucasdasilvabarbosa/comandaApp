@@ -15,7 +15,7 @@ import ucdb.br.appcomanda.modelDTO.PizzaComandaDTO;
  * Created by Lucas on 31/07/2017.
  */
 
-public class PizzaComandaAdapter extends RecyclerView.Adapter<PizzaViewHolder>{
+public class PizzaComandaAdapter extends RecyclerView.Adapter<PizzaViewHolder> {
     List<PizzaComandaDTO> pizzas;
 
     public PizzaComandaAdapter(List<PizzaComandaDTO> pizzas) {
@@ -34,9 +34,21 @@ public class PizzaComandaAdapter extends RecyclerView.Adapter<PizzaViewHolder>{
     public void onBindViewHolder(PizzaViewHolder holder, int position) {
         PizzaComandaDTO pizzaComandaDTO = pizzas.get(position);
         holder.sabor.setText(pizzaComandaDTO.getSaborPizza());
-        holder.idPizza.setText(String.valueOf(position+1));
+        holder.idPizza.setText(String.valueOf(position + 1));
         holder.valor.setText(String.valueOf(pizzaComandaDTO.getValorPizza()));
         holder.descricao.setEnabled(false);
+
+        if(pizzaComandaDTO.getId() == 0){
+            holder.status.setVisibility(View.GONE);
+        }else {
+            if (pizzaComandaDTO.isEntreguePelaCozinha()) {
+                holder.status.setImageResource(R.mipmap.ic_pizza_entregue);
+            } else {
+                holder.status.setImageResource(R.mipmap.ic_pizza_enviada);
+            }
+        }
+
+
     }
 
     @Override

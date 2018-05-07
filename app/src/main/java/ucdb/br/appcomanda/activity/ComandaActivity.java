@@ -127,7 +127,6 @@ public class ComandaActivity extends AppCompatActivity {
         super.onResume();
     }
 
-
     private void criarComanda(MesaDTO mesaDTO, final Context context) {
         Rotas apiRotas = ApiRetrofit.buildRetrofit();
 
@@ -182,16 +181,15 @@ public class ComandaActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ComandaDTO> call, Response<ComandaDTO> response) {
                 ComandaDTO comandaDTO = response.body();
-
                 if (comandaDTO != null) {
                     ComandaHelper.setComandaDTO(comandaDTO);
+                    onResume();
                 }
-
             }
 
             @Override
             public void onFailure(Call<ComandaDTO> call, Throwable t) {
-
+                Toast.makeText(ComandaActivity.this, "Não foi possivel tente novamente", Toast.LENGTH_SHORT).show();
             }
         });
 
