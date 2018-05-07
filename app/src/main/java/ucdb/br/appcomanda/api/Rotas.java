@@ -11,6 +11,7 @@ import ucdb.br.appcomanda.modelDTO.BebidaDTO;
 import ucdb.br.appcomanda.modelDTO.ComandaDTO;
 import ucdb.br.appcomanda.modelDTO.MesaDTO;
 import ucdb.br.appcomanda.modelDTO.PizzaDTO;
+import ucdb.br.appcomanda.modelDTO.UsuarioDTO;
 
 /**
  * Created by Lucas on 30/05/2017.
@@ -38,6 +39,9 @@ public interface Rotas {
 
     @POST("comanda/finalizar")
     Call<ComandaDTO> finalizarComanda(@Body ComandaDTO comandaDTO);
+
+    @POST("usuario/login")
+    Call<UsuarioDTO> login(@Body UsuarioDTO usuarioDTO);
 
 
 }

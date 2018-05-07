@@ -51,4 +51,9 @@ public class ComandaHelper {
     public static void setMesaDTO(MesaDTO mesaDTO) {
         ComandaHelper.mesaDTO = mesaDTO;
     }
+
+    public static void limpa(){
+        comandaDTO = null;
+        mesaDTO = null;
+    }
 }

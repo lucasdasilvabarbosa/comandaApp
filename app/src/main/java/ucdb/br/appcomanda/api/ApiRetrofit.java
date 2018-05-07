@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRetrofit {
 
-    private static final String url = "http://192.168.0.11:8080/ws/";
+    private static final String url = "http://192.168.0.9:8080/ws/";
 
     public static Rotas apiRotas;
 

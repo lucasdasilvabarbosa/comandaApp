@@ -27,6 +27,7 @@ import ucdb.br.appcomanda.api.ApiRetrofit;
 import ucdb.br.appcomanda.api.Rotas;
 import ucdb.br.appcomanda.modelDTO.ComandaDTO;
 import ucdb.br.appcomanda.modelDTO.MesaDTO;
+import ucdb.br.appcomanda.modelDTO.PizzaComandaDTO;
 import ucdb.br.appcomanda.util.MascaraMonetaria;
 
 
@@ -54,6 +55,7 @@ public class ComandaActivity extends AppCompatActivity {
     TextView numeroDaMesa;
 
     boolean validarRetorno;
+    private ComandaDTO comandaDTO;
 
     @Override
     public void onCreate(Bundle saveInstanceState) {
@@ -201,33 +203,37 @@ public class ComandaActivity extends AppCompatActivity {
         if (ComandaHelper.getComandaDTO().getBebidaDTOs() != null && ComandaHelper.getComandaDTO().getBebidaDTOs().size() > 0 ||
                 ComandaHelper.getComandaDTO().getPizzaDTOs() != null && ComandaHelper.getComandaDTO().getPizzaDTOs().size() > 0) {
 
-            Double valorFinal = ComandaHelper.somaValorComanda();
-            AlertDialog.Builder alert = new AlertDialog.Builder(ComandaActivity.this);
-            alert.setMessage("Valor da comanda = " + MascaraMonetaria.mascaraReal(valorFinal));
-            alert.setTitle("Deseja realmente fechar a comanda?!");
-            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finalizarComanda();
-                    if (validarRetorno)
-                        finish();
-                    else {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(ComandaActivity.this);
-                        alert.setMessage("Algo deu errado na comunicação, tente novamente!");
-                        alert.setTitle("Atenção!");
-                        alert.setNegativeButton("Não", null);
-                        alert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+            if (verificaEntrega()) {
+                Toast.makeText(this, "Ainda existem Pizzas a serem entregues", Toast.LENGTH_SHORT).show();
+            } else {
+                Double valorFinal = ComandaHelper.somaValorComanda();
+                AlertDialog.Builder alert = new AlertDialog.Builder(ComandaActivity.this);
+                alert.setMessage("Valor da comanda = " + MascaraMonetaria.mascaraReal(valorFinal));
+                alert.setTitle("Deseja realmente fechar a comanda?!");
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finalizarComanda();
+                        if (ComandaHelper.getComandaDTO().isComandaFinalizada())
+                            finish();
+                        else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(ComandaActivity.this);
+                            alert.setMessage("Algo deu errado na comunicação, tente novamente!");
+                            alert.setTitle("Atenção!");
+                            alert.setNegativeButton("Não", null);
+                            alert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+                            alert.show();
+                        }
 
-                            }
-                        });
-                        alert.show();
                     }
-
-                }
-            });
-            alert.show();
+                });
+                alert.show();
+            }
         } else {
             AlertDialog.Builder alert = new AlertDialog.Builder(ComandaActivity.this);
             alert.setTitle("Ops!");
@@ -246,28 +252,37 @@ public class ComandaActivity extends AppCompatActivity {
 
 
     public void finalizarComanda() {
-      Rotas rotas = ApiRetrofit.buildRetrofit();
+        Rotas rotas = ApiRetrofit.buildRetrofit();
 
-      Call<ComandaDTO> call = rotas.finalizarComanda(ComandaHelper.getComandaDTO());
+        Call<ComandaDTO> call = rotas.finalizarComanda(ComandaHelper.getComandaDTO());
 
-      call.enqueue(new Callback<ComandaDTO>() {
-          @Override
-          public void onResponse(Call<ComandaDTO> call, Response<ComandaDTO> response) {
-              if(response.code() == 200)
-                  validarRetorno = true;
-              else
-                  validarRetorno = false;
-          }
+        call.enqueue(new Callback<ComandaDTO>() {
+            @Override
+            public void onResponse(Call<ComandaDTO> call, Response<ComandaDTO> response) {
+                if (response.code() == 200) {
+                    ComandaHelper.limpa();
+                    ComandaHelper.setComandaDTO(response.body());
+                } else
+                    validarRetorno = false;
+            }
 
-          @Override
-          public void onFailure(Call<ComandaDTO> call, Throwable t) {
-
-          }
-      });
+            @Override
+            public void onFailure(Call<ComandaDTO> call, Throwable t) {
+                validarRetorno = false;
+            }
+        });
 
 
     }
 
+    public boolean verificaEntrega() {
+        for (PizzaComandaDTO pizzaComandaDTO : ComandaHelper.getComandaDTO().getPizzaDTOs()) {
+            if (!pizzaComandaDTO.isEntreguePelaCozinha()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     protected void onDestroy() {

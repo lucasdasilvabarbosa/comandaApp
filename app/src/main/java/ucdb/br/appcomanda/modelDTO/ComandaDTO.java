@@ -12,6 +12,7 @@ public class ComandaDTO implements Serializable {
     private Double valorComanda;
     private List<PizzaComandaDTO> pizzaDTOs;
     private List<BebidaComandaDTO> bebidaDTOs;
+    private boolean comandaFinalizada;
 
     public int getId() {
         return id;
@@ -51,5 +52,13 @@ public class ComandaDTO implements Serializable {
 
     public void setValorComanda(Double valorComanda) {
         this.valorComanda = valorComanda;
+    }
+
+    public boolean isComandaFinalizada() {
+        return comandaFinalizada;
+    }
+
+    public void setComandaFinalizada(boolean comandaFinalizada) {
+        this.comandaFinalizada = comandaFinalizada;
     }
 }

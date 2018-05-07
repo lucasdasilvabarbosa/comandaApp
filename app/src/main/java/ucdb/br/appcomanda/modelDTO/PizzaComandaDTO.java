@@ -11,6 +11,7 @@ public class PizzaComandaDTO implements Serializable {
     private String saborPizza;
     private int idComanda;
     private Double valorPizza;
+    private boolean entreguePelaCozinha;
 
     public int getId() {
         return id;
@@ -50,5 +51,13 @@ public class PizzaComandaDTO implements Serializable {
 
     public void setValorPizza(Double valorPizza) {
         this.valorPizza = valorPizza;
+    }
+
+    public boolean isEntreguePelaCozinha() {
+        return entreguePelaCozinha;
+    }
+
+    public void setEntreguePelaCozinha(boolean entreguePelaCozinha) {
+        this.entreguePelaCozinha = entreguePelaCozinha;
     }
 }
